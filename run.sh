@@ -72,7 +72,7 @@ setup_ports() {
         fi
     done
 
-    cp minato/docker-compose.yml docker-compose.yml
+    cp files/docker-compose.yml docker-compose.yml
 
     # OP-geth service
     sed -i "s/\"[0-9]*:8551\"/\"$PORT_8551:8551\"/g" docker-compose.yml
@@ -152,22 +152,12 @@ install_node() {
         fi
     fi
 
-    # копирование файлов из папки minato на уровень выше
-    if [ ! -f "../minato-genesis.json" ]; then
-        if cp minato/minato-genesis.json ../minato-genesis.json; then
-            echo "minato-genesis.json скопирован на уровень выше."
-        else
-            echo "Ошибка при копировании minato-genesis.json!"
-            exit 1
-        fi
-    fi
-    if [ ! -f "../minato-rollup.json" ]; then
-        if cp minato/minato-rollup.json ../minato-rollup.json; then
-            echo "minato-rollup.json скопирован на уровень выше."
-        else
-            echo "Ошибка при копировании minato-rollup.json!"
-            exit 1
-        fi
+    # копирование файлов из папки files (minato-genesis.json, minato-rollup.json)
+    if cp minato/minato-rollup.json ./ && cp minato/minato-genesis.json ./; then
+        echo "minato-rollup.json и minato-genesis.json успешно скопированы."
+    else
+        echo "Ошибка при копировании minato-rollup.json или minato-genesis.json!"
+        exit 1
     fi
 
     sed -i "s|<Node Public IP>|$PUBLIC_IP|g" .env
