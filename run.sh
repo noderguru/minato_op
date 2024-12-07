@@ -152,16 +152,18 @@ install_node() {
         fi
     fi
 
-    # копирование файлов из папки minato
-    if [ ! -d "minato" ]; then
-        if cp -r minato/minato-genesis.json minato-genesis.json; then
-            echo "minato-genesis.json скопирован."
+    # копирование файлов из папки minato на уровень выше
+    if [ ! -f "../minato-genesis.json" ]; then
+        if cp minato/minato-genesis.json ../minato-genesis.json; then
+            echo "minato-genesis.json скопирован на уровень выше."
         else
             echo "Ошибка при копировании minato-genesis.json!"
             exit 1
         fi
-        if cp -r minato/minato-rollup.json minato-rollup.json; then
-            echo "minato-rollup.json скопирован."
+    fi
+    if [ ! -f "../minato-rollup.json" ]; then
+        if cp minato/minato-rollup.json ../minato-rollup.json; then
+            echo "minato-rollup.json скопирован на уровень выше."
         else
             echo "Ошибка при копировании minato-rollup.json!"
             exit 1
