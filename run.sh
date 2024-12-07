@@ -144,7 +144,7 @@ install_node() {
 
     # Изменение файла .env
     if [ ! -f ".env" ]; then
-        if cp minato/sample.env .env; then
+        if cp files/sample.env .env; then
             echo ".env файл успешно скопирован."
         else
             echo "Ошибка при копировании sample.env в .env!"
