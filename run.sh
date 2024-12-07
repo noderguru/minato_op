@@ -153,7 +153,7 @@ install_node() {
     fi
 
     # копирование файлов из папки files (minato-genesis.json, minato-rollup.json)
-    if cp minato/minato-rollup.json ./ && cp minato/minato-genesis.json ./; then
+    if cp files/minato-rollup.json ./ && cp files/minato-genesis.json ./; then
         echo "minato-rollup.json и minato-genesis.json успешно скопированы."
     else
         echo "Ошибка при копировании minato-rollup.json или minato-genesis.json!"
