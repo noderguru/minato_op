@@ -165,7 +165,7 @@ install_node() {
     sed -i "s|L1_BEACON=.*|L1_BEACON=https://ethereum-sepolia-beacon-api.publicnode.com|" .env
 
     # Изменение файла docker-compose.yml
-    sed -i "s|PUBLIC_IP=.*|$PUBLIC_IP|g" docker-compose.yml
+    sed -i "s|PUBLIC_IP=.*|PUBLIC_IP=$PUBLIC_IP|g" docker-compose.yml
 
     # Настройка портов
     setup_ports
