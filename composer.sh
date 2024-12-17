@@ -52,7 +52,7 @@ full_docker_prune() {
 
 while true; do
     show_menu
-    echo "Make sure to set values in .env file for L1_URL, L1_BEACON"
+    echo "Make sure to set values in .env file for L1_URL, L1_BEACON, P2P_ADVERTISE_IP"
     read -p "Select an option [1-8]: " option
     case $option in
         1) build_node ;;
