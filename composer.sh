@@ -45,7 +45,8 @@ check_jwt() {
 }
 
 full_docker_prune() {
-    docker system prune -a -f
+    docker stop $(docker ps -aq) && docker system prune -af --volumes
+
 }
 
 while true; do
