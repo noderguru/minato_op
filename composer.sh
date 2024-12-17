@@ -33,6 +33,7 @@ run_node() {
     echo "Geth-Minato metric address: http://$my_ip:6060"
     echo "Node-Minato metric address: http://$my_ip:7310"
     echo "Portainer address: http://$my_ip:9443"
+
 }
 
 restart_docker() {
@@ -51,6 +52,7 @@ full_docker_prune() {
 
 while true; do
     show_menu
+    echo "Make sure to set values in .env file for L1_URL, L1_BEACON"
     read -p "Select an option [1-8]: " option
     case $option in
         1) build_node ;;
