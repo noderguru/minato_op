@@ -2,19 +2,19 @@
 
 git clone https://github.com/noderguru/minato_op.git
 
-cd minato-op
+cd minato_op
 
 chmod +x composer.sh
 
 ./composer.sh
 
+если у вас есть jwt ключ со старой версии, то просто переместите файл jwt.txt в директорию /root/soneium-minato-node/ если нет ключа сгенерите при помощи скрипта 4й пункт меню
+
 выбираете 1) Build node
 
-если у вас есть jwt ключ со старой версии, то просто переместите файл jwt.txt в директорию root/minato-op/ если нет ключа сгенерите при помощи скрипта 4й пункт меню
+nano /root/soneium-minato-node/.env
 
-nano .env 
-
-в переменной L1_URL=https://lb.drpc.org/ogrpc?network=sepolia&dkey=ВАШ---КЛЮЧ----API !!!!!!!!!!
+в переменной L1_URL=https://lb.drpc.org/ogrpc?network=sepolia&dkey=ВАШ---КЛЮЧ----API сеть Sepolia!!!!!!!!!!  можно взять тут https://drpc.org/dashboard
 в переменной L1_BEACON=https://eth-beacon-chain-sepolia.drpc.org/rest/
 
 сохраняем и выходим CTRL+O  Enter CTRL+X
