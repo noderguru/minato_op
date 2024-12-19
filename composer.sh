@@ -33,7 +33,6 @@ run_node() {
     my_ip=$(curl -s ifconfig.me)
     echo "Geth-Minato metric address: http://$my_ip:6060"
     echo "Node-Minato metric address: http://$my_ip:7310"
-    echo "Portainer address: http://$my_ip:9443"
 }
 
 restart_docker() {
