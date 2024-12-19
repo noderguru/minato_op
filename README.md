@@ -15,6 +15,7 @@ chmod +x composer.sh
 nano /root/soneium-minato-node/.env
 
 в переменной L1_URL=https://lb.drpc.org/ogrpc?network=sepolia&dkey=ВАШ---КЛЮЧ----API сеть Sepolia!!!!!!!!!!  можно взять тут https://drpc.org/dashboard
+
 в переменной L1_BEACON=https://eth-beacon-chain-sepolia.drpc.org/rest/
 
 сохраняем и выходим CTRL+O  Enter CTRL+X
@@ -22,3 +23,24 @@ nano /root/soneium-minato-node/.env
 ./composer.sh
 
 выбираете 2) Run node
+
+
+
+Доп команды:
+
+cd /root/soneium-minato-node/
+
+docker-compose logs -f op-geth-minato
+
+docker-compose logs -f op-node-minato
+
+проверка ключа внутри контейнера
+docker-compose exec op-geth-minato cat /etc/optimism/jwt.txt
+
+проверка версий:
+
+docker-compose exec op-geth-minato geth version (должна быть 1.101411.3)
+
+docker-compose exec op-node-minato op-node --version  (должна быть  v1.10.1)
+
+
