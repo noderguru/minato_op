@@ -5,6 +5,7 @@ show_menu() {
     echo "1) Build node"
     echo "2) Run node"
     echo "3) Restart docker"
+    echo "4) Generate jwt file"
     echo "6) Check jwt file"
     echo "7) Full docker prune"
     echo "8) Exit"
@@ -33,7 +34,6 @@ run_node() {
     echo "Geth-Minato metric address: http://$my_ip:6060"
     echo "Node-Minato metric address: http://$my_ip:7310"
     echo "Portainer address: http://$my_ip:9443"
-
 }
 
 restart_docker() {
@@ -41,13 +41,36 @@ restart_docker() {
     docker-compose restart
 }
 
+generate_jwt() {
+    mkdir -p $HOME/soneium-minato-node
+
+    if ! command -v openssl &> /dev/null; then
+        echo "openssl is not installed. Installing..."
+        sudo apt-get update && sudo apt-get install -y openssl
+    fi
+
+    if [ -f "$HOME/soneium-minato-node/jwt.txt" ]; then
+        read -p "jwt.txt already exists. Overwrite? (y/n): " overwrite
+        if [ "$overwrite" != "y" ]; then
+            echo "Skipping jwt file generation."
+            return
+        fi
+    fi
+
+    openssl rand -hex 32 > $HOME/soneium-minato-node/jwt.txt
+    echo "New jwt.txt file generated at $HOME/soneium-minato-node/jwt.txt"
+}
+
 check_jwt() {
-    cat $HOME/soneium-minato-node/jwt.txt
+    if [ -f "$HOME/soneium-minato-node/jwt.txt" ]; then
+        cat $HOME/soneium-minato-node/jwt.txt
+    else
+        echo "jwt.txt file not found in $HOME/soneium-minato-node"
+    fi
 }
 
 full_docker_prune() {
     docker stop $(docker ps -aq) && docker system prune -af --volumes
-
 }
 
 while true; do
@@ -58,6 +81,7 @@ while true; do
         1) build_node ;;
         2) run_node ;;
         3) restart_docker ;;
+        4) generate_jwt ;;
         6) check_jwt ;;
         7) full_docker_prune ;;
         8) exit ;;
