@@ -1,10 +1,8 @@
+version: '3.8'
 
 services:
   op-geth-minato:
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:v1.101411.2
-    environment:
-      - PUBLIC_IP
-      - P2P_ADVERTISE_IP
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:v1.101411.3
     entrypoint: >
       /bin/sh -c "
       if [ ! -d /data/optimism/geth/chaindata ]; then
@@ -25,7 +23,7 @@ services:
       - "6060:6060"
       - "8545:8545"
       - "8546:8546"
-      - "30303:30303" 
+      - "30303:30303"
     volumes:
       - op-geth-storage:/data/optimism
       - ./minato-genesis.json:/config/minato-genesis.json
@@ -34,19 +32,8 @@ services:
     networks:
       - minato
 
-
-  portainer:
-    image: portainer/portainer-ce:latest
-    container_name: portainer
-    ports:
-      - "9443:9443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    restart: unless-stopped
-
   op-node-minato:
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.10.0
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.10.1
     environment:
       - L1_URL
       - L2_URL
@@ -68,14 +55,28 @@ services:
       - OP_NODE_OVERRIDE_FJORD
       - OP_NODE_OVERRIDE_GRANITE
       - OP_NODE_OVERRIDE_HOLOCENE
-    command: >
-      op-node --l1=${L1_URL} --l2=${L2_URL} --rpc.addr=${RPC_ADDR} --rpc.port=${RPC_PORT}
-      --l2.jwt-secret=${L2_JWT_SECRET} --l1.trustrpc=${L1_TRUST_RPC} --l1.beacon=${L1_BEACON}
-      --syncmode=${SYNC_MODE} --l1.rpckind=${L1_RPC_KIND} --p2p.static=${OP_NODE_STATIC_PEERS}
-      --p2p.priv.path=${P2P_PRIV_PATH} --p2p.discovery.path=${P2P_DISCOVERY_PATH} 
-      --p2p.peerstore.path=${P2P_PEERSTORE_PATH} --metrics.enabled=${METRICS_ENABLED}
-      --p2p.ban.peers=${OP_NODE_P2P_PEER_BANNING}
-      --metrics.port=${METRICS_PORT} --override.fjord=${OP_NODE_OVERRIDE_FJORD} --override.granite=${OP_NODE_OVERRIDE_GRANITE} --override.holocene=${OP_NODE_OVERRIDE_HOLOCENE} --rollup.config=${ROLLUP_CONFIG}
+    command:
+      - op-node
+      - --l1=${L1_URL}
+      - --l2=http://op-geth-minato:8551
+      - --rpc.addr=${RPC_ADDR}
+      - --rpc.port=${RPC_PORT}
+      - --l2.jwt-secret=${L2_JWT_SECRET}
+      - --l1.trustrpc=${L1_TRUST_RPC}
+      - --l1.beacon=${L1_BEACON}
+      - --syncmode=${SYNC_MODE}
+      - --l1.rpckind=${L1_RPC_KIND}
+      - --p2p.static=${OP_NODE_STATIC_PEERS}
+      - --p2p.priv.path=${P2P_PRIV_PATH}
+      - --p2p.discovery.path=${P2P_DISCOVERY_PATH}
+      - --p2p.peerstore.path=${P2P_PEERSTORE_PATH}
+      - --metrics.enabled=${METRICS_ENABLED}
+      - --p2p.ban.peers=${OP_NODE_P2P_PEER_BANNING}
+      - --metrics.port=${METRICS_PORT}
+      - --override.fjord=${OP_NODE_OVERRIDE_FJORD}
+      - --override.granite=${OP_NODE_OVERRIDE_GRANITE}
+      - --override.holocene=${OP_NODE_OVERRIDE_HOLOCENE}
+      - --rollup.config=${ROLLUP_CONFIG}
     ports:
       - "9545:9545"
       - "7310:7310"
@@ -92,9 +93,7 @@ volumes:
   op-geth-storage:
   op-node-storage:
   op-secrets:
-  portainer_data:
 
 networks:
   minato:
     driver: bridge
-
