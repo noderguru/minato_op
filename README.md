@@ -18,6 +18,8 @@ nano /root/soneium-minato-node/.env
 
 в переменной L1_BEACON=https://eth-beacon-chain-sepolia.drpc.org/rest/
 
+в переменной P2P_ADVERTISE_IP=ВАШ IP можно посмотреть командой curl -4 -s ifconfig.me
+
 сохраняем и выходим CTRL+O  Enter CTRL+X
 
 ./composer.sh
