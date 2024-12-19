@@ -30,7 +30,7 @@ run_node() {
     cd $HOME/soneium-minato-node
     docker-compose up -d
 
-    my_ip=$(curl -s ifconfig.me)
+    my_ip=$(curl -4 -s ifconfig.me)  # Используем флаг -4 для принудительного IPv4
     echo "Geth-Minato metric address: http://$my_ip:6060"
     echo "Node-Minato metric address: http://$my_ip:7310"
 }
